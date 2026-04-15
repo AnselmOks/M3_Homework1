@@ -1,12 +1,15 @@
 package ru.hogwarts.school.service;
 
+import org.jspecify.annotations.Nullable;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 import ru.hogwarts.school.model.Faculty;
+import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repository.FacultyRepository;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 
 @Service
@@ -38,5 +41,17 @@ public class FacultyService {
 
     public Collection<Faculty> findByColor(String color) {
         return facultyRepository.findByColor(color);
+    }
+
+    public Collection<Faculty> findByColorOrNameContainsIgnoreCase(String pattern) {
+        return facultyRepository.findByNameContainingIgnoreCaseOrColorContainingIgnoreCase(pattern, pattern);
+    }
+
+    public Collection<Student> getStudentsOnFaculty(long id) {
+        Faculty faculty = facultyRepository.findById(id).get();
+        if (faculty != null) {
+            return faculty.getStudents();
+        }
+        return Collections.emptyList();
     }
 }

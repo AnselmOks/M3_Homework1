@@ -1,5 +1,6 @@
 package ru.hogwarts.school.service;
 
+import org.jspecify.annotations.Nullable;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 import ru.hogwarts.school.model.Faculty;
@@ -8,6 +9,7 @@ import ru.hogwarts.school.repository.StudentRepository;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 
 @Service
@@ -41,4 +43,15 @@ public class StudentService {
         return studentRepository.findByAge(age);
     }
 
+    public Collection<Student> findByAgeBetween(int minAge, int maxAge) {
+        return studentRepository.findByAgeBetween(minAge, maxAge);
+    }
+
+    public Faculty getFacultyOfStudent(Long id) {
+        Student student = studentRepository.findById(id).get();
+        if (student != null) {
+            return student.getFaculty();
+        }
+        return null;
+    }
 }

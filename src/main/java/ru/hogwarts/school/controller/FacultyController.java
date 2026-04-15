@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.hogwarts.school.model.Faculty;
+import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.service.FacultyService;
 
 import java.util.ArrayList;
@@ -58,6 +59,19 @@ public class FacultyController {
             return ResponseEntity.ok(facultyService.findByColor(color));
         }
         return ResponseEntity.ok(Collections.emptyList());
+    }
+
+    @GetMapping("/find/{pattern}")
+    public ResponseEntity<Collection<Faculty>> findFacultiesExtended(@PathVariable("pattern") String pattern) {
+        if (pattern != null && !pattern.isBlank()) {
+            return ResponseEntity.ok(facultyService.findByColorOrNameContainsIgnoreCase(pattern));
+        }
+        return ResponseEntity.ok(Collections.emptyList());
+    }
+
+    @GetMapping("/students/{id}")
+    public ResponseEntity<Collection<Student>> getStudentsOnFaculty(@PathVariable("id") long id) {
+        return ResponseEntity.ok(facultyService.getStudentsOnFaculty(id));
     }
 
 }
