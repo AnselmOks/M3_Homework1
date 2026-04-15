@@ -2,6 +2,7 @@ package ru.hogwarts.school.service;
 
 import org.jspecify.annotations.Nullable;
 import org.springframework.data.domain.Example;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
@@ -40,11 +41,17 @@ public class FacultyService {
     }
 
     public Collection<Faculty> findByColor(String color) {
-        return facultyRepository.findByColor(color);
+        if (color != null && !color.isBlank()) {
+            return facultyRepository.findByColor(color);
+        }
+        return Collections.emptyList();
     }
 
     public Collection<Faculty> findByColorOrNameContainsIgnoreCase(String pattern) {
-        return facultyRepository.findByNameContainingIgnoreCaseOrColorContainingIgnoreCase(pattern, pattern);
+        if (pattern != null && !pattern.isBlank()) {
+            return facultyRepository.findByNameContainingIgnoreCaseOrColorContainingIgnoreCase(pattern, pattern);
+        }
+        return Collections.emptyList();
     }
 
     public Collection<Student> getStudentsOnFaculty(long id) {

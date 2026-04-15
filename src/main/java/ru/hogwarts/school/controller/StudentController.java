@@ -26,56 +26,34 @@ public class StudentController {
     }
 
     @PutMapping
-    public ResponseEntity<Student> editStudent(@RequestBody Student student) {
-        Student foundStudent = studentService.editStudent(student);
-        if (foundStudent == null) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }
-        return ResponseEntity.ok(foundStudent);
+    public Student editStudent(@RequestBody Student student) {
+        return studentService.editStudent(student);
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<Student> deleteStudent(@PathVariable Long id) {
-        Student student = studentService.deleteStudent(id);
-        if (student == null) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(student);
+    public Student deleteStudent(@PathVariable Long id) {
+        return studentService.deleteStudent(id);
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<Student> getStudent(@PathVariable Long id) {
-        Student student = studentService.findStudent(id);
-        if (student == null) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(student);
+    public Student getStudent(@PathVariable Long id) {
+        return studentService.findStudent(id);
     }
 
     @GetMapping
-    public ResponseEntity<Collection<Student>> findStudents(@RequestParam(required = false) int age) {
-        if (age > 0) {
-            return ResponseEntity.ok(studentService.findByAge(age));
-        }
-        return ResponseEntity.ok(Collections.emptyList());
+    public Collection<Student> findStudents(@RequestParam(required = false) int age) {
+        return studentService.findByAge(age);
     }
 
     @GetMapping("/ages")
-    public ResponseEntity<Collection<Student>> findStudentsByAgeBetween(@RequestParam(name = "min", required = true) int minAge,
-                                                                        @RequestParam(name = "max", required = true) int maxAge) {
-        if (minAge >= 0 && maxAge >= 0) {
-            return ResponseEntity.ok(studentService.findByAgeBetween(minAge, maxAge));
-        }
-        return ResponseEntity.ok(Collections.emptyList());
+    public Collection<Student> findStudentsByAgeBetween(@RequestParam(name = "min", required = true) int minAge,
+                                                        @RequestParam(name = "max", required = true) int maxAge) {
+        return studentService.findByAgeBetween(minAge, maxAge);
     }
 
     @GetMapping("/faculty/{id}")
-    public ResponseEntity<Faculty> getFacultyOfStudent(@PathVariable Long id) {
-        Faculty faculty = studentService.getFacultyOfStudent(id);
-        if (faculty == null) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(faculty);
+    public Faculty getFacultyOfStudent(@PathVariable Long id) {
+        return studentService.getFacultyOfStudent(id);
     }
 
 }
