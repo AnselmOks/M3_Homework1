@@ -41,17 +41,17 @@ public class FacultyService {
     }
 
     public Collection<Faculty> findByColor(String color) {
-        if (color != null && !color.isBlank()) {
-            return facultyRepository.findByColor(color);
+        if (color == null || color.isBlank()) {
+            throw new IllegalArgumentException("Неверно задан цвет");
         }
-        return Collections.emptyList();
+        return facultyRepository.findByColor(color);
     }
 
     public Collection<Faculty> findByColorOrNameContainsIgnoreCase(String pattern) {
-        if (pattern != null && !pattern.isBlank()) {
-            return facultyRepository.findByNameContainingIgnoreCaseOrColorContainingIgnoreCase(pattern, pattern);
+        if (pattern == null || pattern.isBlank()) {
+            throw new IllegalArgumentException("Неверно задана строка поиска");
         }
-        return Collections.emptyList();
+        return facultyRepository.findByNameContainingIgnoreCaseOrColorContainingIgnoreCase(pattern, pattern);
     }
 
     public Collection<Student> getStudentsOnFaculty(long id) {

@@ -40,17 +40,17 @@ public class StudentService {
     }
 
     public Collection<Student> findByAge(int age) {
-        if (age >= 0) {
-            return studentRepository.findByAge(age);
+        if (age < 0) {
+            throw new IllegalArgumentException("Неверно задан возраст");
         }
-        return Collections.emptyList();
+        return studentRepository.findByAge(age);
     }
 
     public Collection<Student> findByAgeBetween(int minAge, int maxAge) {
-        if (minAge >= 0 && maxAge >= 0) {
-            return studentRepository.findByAgeBetween(minAge, maxAge);
+        if (minAge < 0 || maxAge < 0) {
+            throw new IllegalArgumentException("Неверно заданы параметры возраста");
         }
-        return Collections.emptyList();
+        return studentRepository.findByAgeBetween(minAge, maxAge);
     }
 
     public Faculty getFacultyOfStudent(Long id) {
